@@ -1,0 +1,107 @@
+{
+  "context": {
+    "name": "Context Engineering",
+    "images": "/context.png",
+    "color": "default"
+  },
+  "typescript": {
+    "name": "TypeScript",
+    "images": "/typescript.png",
+    "color": "default"
+  },
+  "node.js": {
+    "name": "Node.js",
+    "images": "/node.png",
+    "color": "default"
+  },
+  "react.js": {
+    "name": "React.js",
+    "images": "/react.png",
+    "color": "default"
+  },
+  "fastapi": {
+    "name": "FastAPI",
+    "images": "/fastapi.png",
+    "color": "default"
+  },
+  "huggingface": {
+    "name": "Hugging Face",
+    "images": "/hugging.png",
+    "color": "default"
+  },
+  "kubernetes": {
+    "name": "Kubernetes",
+    "images": "kubernetes.png",
+    "color": "default"
+  },
+  "nest.js": {
+    "name": "NestJS",
+    "images": "/nest.png",
+    "color": "default"
+  },
+  "openclaw": {
+    "name": "Open Claw",
+    "images": "/openclaw.png",
+    "color": "default"
+  },
+  "prompt": {
+    "name": "Prompt Engineering",
+    "images": "/prompt.png",
+    "color": "default"
+  },
+  "next.js": {
+    "name": "Next.js",
+    "images": "/next.png",
+    "color": "default"
+  },
+  "python": {
+    "name": "Python",
+    "images": "/python.png",
+    "color": "default"
+  },
+  "restapi": {
+    "name": "RestAPI",
+    "images": "/restapi.png",
+    "color": "default"
+  },
+  "postgreSQL": {
+    "name": "PostgreSQL",
+    "images": "/postgre.png",
+    "color": "default"
+  },
+  "swagger": {
+    "name": "Swagger",
+    "images": "/swagger.png",
+    "color": "default"
+  },
+  "git": {
+    "name": "Git",
+    "images": "/git.png",
+    "color": "default"
+  },
+  "docker": {
+    "name": "Docker",
+    "images": "/docker.png",
+    "color": "default"
+  },
+  "html": {
+    "name": "HTML5",
+    "images": "/html.png",
+    "color": "default"
+  },
+  "css": {
+    "name": "CSS3",
+    "images": "/css.png",
+    "color": "default"
+  },
+  "tailwaind": {
+    "name": "Tailwind CSS",
+    "images": "/tailwaind.png",
+    "color": "default"
+  },
+  "github": {
+    "name": "GitHub",
+    "images": "/github.png",
+    "color": "default"
+  }
+}
