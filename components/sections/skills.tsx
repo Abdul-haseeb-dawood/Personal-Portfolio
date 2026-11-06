@@ -16,6 +16,7 @@ interface SkillTag {
 }
 
 const config = portfolioConfig as PortfolioConfig;
+import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
 import {
   Code,
@@ -31,7 +32,6 @@ import {
   Globe,
   Shield,
 } from "lucide-react";
-import { useState } from "react";
 
 const skillCategories = [
   {
@@ -81,23 +81,15 @@ const skillCategories = [
 ];
 
 export function Skills() {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
   const getSkillData = (skillId: string): SkillTag | null => {
     const skillData = skillsDatabase[skillId as keyof typeof skillsDatabase];
     if (!skillData) return null;
-
-    let backgroundColor = skillData.color;
-
-    if (skillData.color === "default") {
-      backgroundColor = isDarkMode ? "#011d1f" : "#ffffff";
-    }
 
     return {
       id: skillId,
       name: skillData.name,
       image: skillData.images,
-      color: backgroundColor,
+      color: skillData.color,
     };
   };
 
@@ -133,12 +125,25 @@ export function Skills() {
                     const skill = getSkillData(skillId);
                     if (!skill) return null;
 
+                    const usesThemeColors = skill.color === "default";
+
                     return (
                       <Badge
                         key={skill.id}
-                        className="px-3 py-1 text-sm font-medium transition-all duration-700 hover:scale-125 backdrop-blur-sm dark:shadow-white-glow light:shadow-black-deep border-2 border-[#b7fbff] text-white"
+                        className={cn(
+                          "skill-glow border-2 px-3 py-1 text-sm font-medium backdrop-blur-sm transition-all duration-700 hover:scale-125",
+                          !usesThemeColors && "text-white",
+                        )}
                         style={{
-                          backgroundColor: skill.color,
+                          backgroundColor: usesThemeColors
+                            ? "hsl(var(--skill-chip-surface))"
+                            : skill.color,
+                          borderColor: usesThemeColors
+                            ? "hsl(var(--skill-chip-border))"
+                            : skill.color,
+                          color: usesThemeColors
+                            ? "hsl(var(--skill-chip-foreground))"
+                            : undefined,
                         }}
                       >
                         <img

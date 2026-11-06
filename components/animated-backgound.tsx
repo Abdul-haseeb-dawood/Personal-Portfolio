@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useEffect, useState } from "react";
+import { useRef, useMemo, useSyncExternalStore } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 
@@ -216,33 +216,51 @@ function ShaderBackground({
   );
 }
 
+function LightBackground() {
+  return (
+    <div className="pointer-events-none fixed inset-0 -z-10 animate-fade-in overflow-hidden bg-background">
+      <div className="absolute inset-0 bg-gradient-to-b from-secondary/70 via-background to-background" />
+
+      <div className="absolute left-1/2 top-[-16rem] h-[34rem] w-[34rem] animate-aurora-a rounded-full bg-primary/[0.15] blur-[110px]" />
+      <div className="absolute left-[-8rem] top-[24%] h-[26rem] w-[26rem] animate-aurora-b rounded-full bg-accent/[0.14] blur-[120px]" />
+      <div className="absolute right-[-7rem] top-[52%] h-[30rem] w-[30rem] animate-aurora-c rounded-full bg-primary/[0.1] blur-[130px]" />
+      <div className="absolute left-[30%] top-[88%] h-[24rem] w-[24rem] animate-aurora-a rounded-full bg-accent/[0.1] blur-[120px]" />
+
+      <div className="absolute inset-0 bg-dot bg-mesh-fade opacity-70" />
+      <div className="absolute inset-0 bg-vignette" />
+      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background/70 to-transparent" />
+    </div>
+  );
+}
+
+function subscribeToTheme(callback: () => void) {
+  const observer = new MutationObserver(callback);
+  observer.observe(document.documentElement, {
+    attributes: true,
+    attributeFilter: ["class"],
+  });
+  return () => observer.disconnect();
+}
+
+function getThemeSnapshot() {
+  return document.documentElement.classList.contains("dark");
+}
+
+// Render the CSS backdrop during prerender so the WebGL shader (which reads
+// Math.random for its noise texture) only ever mounts on the client.
+function getServerThemeSnapshot() {
+  return false;
+}
+
 export function AnimatedBackground() {
-  const [isDark, setIsDark] = useState(true);
-  const [mounted, setMounted] = useState(false);
+  const isDark = useSyncExternalStore(
+    subscribeToTheme,
+    getThemeSnapshot,
+    getServerThemeSnapshot,
+  );
 
-  useEffect(() => {
-    setMounted(true);
-    const checkTheme = () => {
-      setIsDark(document.documentElement.classList.contains("dark"));
-    };
-    checkTheme();
-
-    const observer = new MutationObserver(checkTheme);
-    observer.observe(document.documentElement, {
-      attributes: true,
-      attributeFilter: ["class"],
-    });
-    return () => observer.disconnect();
-  }, []);
-
-  if (!mounted || !isDark) {
-    return (
-      <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-        <div className="absolute inset-0 bg-aurora" />
-        <div className="absolute inset-0 bg-grid opacity-30" />
-        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />
-      </div>
-    );
+  if (!isDark) {
+    return <LightBackground />;
   }
 
   return (

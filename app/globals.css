@@ -61,6 +61,14 @@
   --glow-1: 188 100% 50%;
   --glow-2: 181 100% 45%;
   --glow-3: 195 100% 72%;
+  --skill-chip-surface: 184 93% 6%;
+  --skill-chip-border: 183 100% 86%;
+  --skill-chip-foreground: 0 0% 100%;
+  --skill-chip-glow: 183 100% 55% / 0.25;
+  --skill-chip-glow-hover: 183 100% 62% / 0.45;
+  --skill-chip-shadow: 183 100% 50% / 0;
+  --hero-name-stroke: #00e5f5;
+  --hero-name-glow: rgba(0, 229, 245, 0.62);
 }
 
 .light {
@@ -86,6 +94,14 @@
   --glow-1: 190 78% 30%;
   --glow-2: 181 72% 36%;
   --glow-3: 190 35% 58%;
+  --skill-chip-surface: 0 0% 100%;
+  --skill-chip-border: 190 95% 27%;
+  --skill-chip-foreground: 195 32% 14%;
+  --skill-chip-glow: 190 95% 26% / 0.32;
+  --skill-chip-glow-hover: 190 95% 22% / 0.48;
+  --skill-chip-shadow: 190 60% 22% / 0.2;
+  --hero-name-stroke: hsl(190 95% 24%);
+  --hero-name-glow: rgba(0, 118, 135, 0.68);
 }
 
 @layer base {
@@ -156,6 +172,44 @@
     0 0 36px hsl(var(--glow-1) / 0.08);
 }
 
+.skill-glow {
+  box-shadow: 0 0 16px hsl(var(--skill-chip-glow)),
+    0 6px 16px -8px hsl(var(--skill-chip-shadow));
+}
+
+.skill-glow:hover {
+  box-shadow: 0 0 26px hsl(var(--skill-chip-glow-hover)),
+    0 8px 22px -8px hsl(var(--skill-chip-shadow));
+}
+
+.light .skill-glow {
+  box-shadow: 0 0 12px hsl(var(--skill-chip-glow)),
+    0 0 24px -8px hsl(var(--skill-chip-glow)),
+    0 8px 20px -8px hsl(var(--skill-chip-shadow));
+}
+
+.light .skill-glow:hover {
+  box-shadow: 0 0 16px hsl(var(--skill-chip-glow-hover)),
+    0 0 30px -6px hsl(var(--skill-chip-glow-hover)),
+    0 8px 22px -8px hsl(var(--skill-chip-shadow));
+}
+
+.hero-name {
+  -webkit-text-stroke: 2px var(--hero-name-stroke);
+  filter: drop-shadow(0 0 10px var(--hero-name-glow));
+}
+
+.light .hero-name {
+  filter: drop-shadow(0 0 12px var(--hero-name-glow))
+    drop-shadow(0 0 28px var(--hero-name-glow));
+}
+
+.light .shiny-button {
+  --gleam-base: hsl(190 24% 98%);
+  --gleam-label: hsl(195 32% 12%);
+  --gleam-inset: hsl(190 18% 80%);
+}
+
 .bg-grid {
   background-image: linear-gradient(
       to right,
@@ -196,9 +250,101 @@
     );
 }
 
+/* Theme-aware artwork swap in the hero */
+.theme-image-light {
+  display: none;
+}
+
+.light .theme-image-light {
+  display: block;
+}
+
+.light .theme-image-dark {
+  display: none;
+}
+
+/* Light theme animated backdrop */
+.bg-mesh-fade {
+  -webkit-mask-image: radial-gradient(
+    ellipse 85% 70% at 50% 8%,
+    #000 20%,
+    transparent 80%
+  );
+  mask-image: radial-gradient(
+    ellipse 85% 70% at 50% 8%,
+    #000 20%,
+    transparent 80%
+  );
+}
+
+.bg-vignette {
+  background: radial-gradient(
+    ellipse 95% 80% at 50% 25%,
+    transparent 45%,
+    hsl(var(--background)) 100%
+  );
+}
+
+@keyframes aurora-drift-a {
+  0%,
+  100% {
+    transform: translate3d(-50%, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(-42%, 6%, 0) scale(1.15);
+  }
+}
+
+@keyframes aurora-drift-b {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(12%, -9%, 0) scale(1.2);
+  }
+}
+
+@keyframes aurora-drift-c {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1.1);
+  }
+  50% {
+    transform: translate3d(-14%, 7%, 0) scale(0.92);
+  }
+}
+
+.animate-aurora-a,
+.animate-aurora-b,
+.animate-aurora-c {
+  will-change: transform;
+}
+
+.animate-aurora-a {
+  animation: aurora-drift-a 24s ease-in-out infinite;
+}
+
+.animate-aurora-b {
+  animation: aurora-drift-b 30s ease-in-out infinite;
+}
+
+.animate-aurora-c {
+  animation: aurora-drift-c 27s ease-in-out infinite;
+}
+
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out both;
 }
 
 @keyframes float {
@@ -222,6 +368,17 @@
 
 .animate-pulse-glow {
   animation: pulse-glow 4s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-aurora-a,
+  .animate-aurora-b,
+  .animate-aurora-c,
+  .animate-fade-in,
+  .animate-float,
+  .animate-pulse-glow {
+    animation: none;
+  }
 }
 
 html {

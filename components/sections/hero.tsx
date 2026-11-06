@@ -63,7 +63,7 @@ export function Hero() {
             >
               <motion.span
                 aria-label="Abdul-Haseeb"
-                className="inline-flex text-3xl font-serif font-extrabold uppercase tracking-tight text-transparent drop-shadow-[0_0_8px_rgba(0,229,245,0.5)] [-webkit-text-stroke:1.5px_#00E5F5] sm:text-4xl md:text-6xl"
+                className="hero-name inline-flex text-3xl font-serif font-extrabold uppercase tracking-tight text-transparent sm:text-4xl md:text-6xl"
                 initial="hidden"
                 animate="visible"
                 variants={{
@@ -176,9 +176,16 @@ export function Hero() {
               <Image
                 src="/image.png"
                 alt="Abdul Haseeb Dawood developer workspace artwork"
-                className="block aspect-[4/3] h-auto w-full object-cover opacity-95 transition-opacity duration-500 hover:opacity-100"
+                className="theme-image-dark block aspect-[4/3] h-auto w-full object-cover opacity-95 transition-opacity duration-500 hover:opacity-100"
                 width={800}
                 height={875}
+              />
+              <Image
+                src="/light-image.png"
+                alt="Abdul Haseeb Dawood developer workspace artwork"
+                className="theme-image-light aspect-[4/3] h-auto w-full object-cover opacity-95 transition-opacity duration-500 hover:opacity-100"
+                width={800}
+                height={582}
               />
               <div className="pointer-events-none absolute inset-0 bg-gradient-to-tr from-black/20 via-transparent to-primary/[0.12]" />
               <div className="pointer-events-none absolute inset-x-0 bottom-0 h-20 bg-gradient-to-t from-background/50 to-transparent" />

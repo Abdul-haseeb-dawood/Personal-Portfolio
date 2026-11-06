@@ -272,7 +272,7 @@ export function ShinyButton({
       <style>{css}</style>
       <button
         type="button"
-        className={`${scope} ${className}`}
+        className={`shiny-button ${scope} ${className}`}
         onClick={onClick}
         aria-label={label}
         data-reduced-motion={reducedMotion ? "true" : undefined}
