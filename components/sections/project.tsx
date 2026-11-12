@@ -37,39 +37,6 @@ const projects = [
     githubUrl: "https://github.com/your-username/project",
     featured: true,
   },
-  {
-    title: "Fintech Mobile Dashboard",
-    description:
-      "A financial management app with budget tracking, expense categorization, investment portfolio overview, and real-time market data integration.",
-    image:
-      "https://images.pexels.com/photos/33785780/pexels-photo-33785780.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-    tech: ["React Native", "Express", "PostgreSQL", "Plaid API"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/your-username/project",
-    featured: true,
-  },
-  {
-    title: "Developer Documentation Hub",
-    description:
-      "A documentation platform with markdown support, live code examples, search functionality, and automatic API reference generation from OpenAPI specs.",
-    image:
-      "https://images.pexels.com/photos/270373/pexels-photo-270373.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-    tech: ["Next.js", "MDX", "Algolia", "Vercel"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/your-username/project",
-    featured: true,
-  },
-  {
-    title: "Code Collaboration Tool",
-    description:
-      "A real-time collaborative code editor with syntax highlighting, live cursors, chat, and GitHub integration for seamless pair programming.",
-    image:
-      "https://images.pexels.com/photos/3861951/pexels-photo-3861951.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
-    tech: ["React", "WebSocket", "Monaco Editor", "Node.js", "Redis"],
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/your-username/project",
-    featured: true,
-  },
 ];
 
 export function Projects() {

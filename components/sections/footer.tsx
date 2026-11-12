@@ -1,18 +1,21 @@
 "use client";
 
 import { ArrowUp, Code2 } from "lucide-react";
+import { FaEnvelope, FaGithub, FaLinkedin, FaTwitter } from "react-icons/fa";
 
 const socials = [
-  { href: "https://github.com/your-username", label: "GitHub" },
+  { icon: FaGithub, href: "https://github.com/your-username", label: "GitHub" },
   {
+    icon: FaLinkedin,
     href: "https://linkedin.com/in/your-username",
     label: "LinkedIn",
   },
   {
+    icon: FaTwitter,
     href: "https://twitter.com/your-username",
     label: "Twitter",
   },
-  { href: "mailto:your.email@example.com", label: "Email" },
+  { icon: FaEnvelope, href: "mailto:your.email@example.com", label: "Email" },
 ];
 
 const footerLinks = [
@@ -55,6 +58,7 @@ export function Footer() {
                   aria-label={social.label}
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card/50 text-muted-foreground transition-all hover:border-primary/50 hover:text-primary hover:glow-primary"
                 >
+                  <social.icon className="h-4 w-4" aria-hidden="true" />
                 </a>
               ))}
             </div>
