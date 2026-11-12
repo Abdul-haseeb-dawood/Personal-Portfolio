@@ -144,7 +144,7 @@ export function Hero() {
             transition={{ delay: 0.8, duration: 0.7, ease: easeOutSmooth }}
             className="mt-10 flex items-center gap-4 border-t border-border/70 pt-6"
           >
-            {socials.map((social, i) => (
+            {socials.map((social) => (
               <motion.a
                 key={social.label}
                 href={social.href}

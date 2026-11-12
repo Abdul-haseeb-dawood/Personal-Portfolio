@@ -18,67 +18,6 @@ interface SkillTag {
 const config = portfolioConfig as PortfolioConfig;
 import { cn } from "@/lib/utils";
 import { motion } from "framer-motion";
-import {
-  Code,
-  Database,
-  Cloud,
-  Server,
-  GitBranch,
-  Terminal,
-  Cpu,
-  Layers,
-  Boxes,
-  Zap,
-  Globe,
-  Shield,
-} from "lucide-react";
-
-const skillCategories = [
-  {
-    title: "Frontend",
-    icon: Layers,
-    skills: [
-      { name: "React", level: 95 },
-      { name: "Next.js", level: 90 },
-      { name: "TypeScript", level: 88 },
-      { name: "Tailwind CSS", level: 92 },
-      { name: "Framer Motion", level: 85 },
-    ],
-  },
-  {
-    title: "Backend",
-    icon: Server,
-    skills: [
-      { name: "Node.js", level: 90 },
-      { name: "Python", level: 85 },
-      { name: "PostgreSQL", level: 88 },
-      { name: "GraphQL", level: 82 },
-      { name: "REST APIs", level: 93 },
-    ],
-  },
-  {
-    title: "DevOps & Cloud",
-    icon: Cloud,
-    skills: [
-      { name: "Docker", level: 85 },
-      { name: "AWS", level: 80 },
-      { name: "CI/CD", level: 83 },
-      { name: "Vercel", level: 90 },
-      { name: "Linux", level: 87 },
-    ],
-  },
-  {
-    title: "Tools & Practices",
-    icon: GitBranch,
-    skills: [
-      { name: "Git", level: 95 },
-      { name: "Jest / Testing", level: 85 },
-      { name: "Agile / Scrum", level: 88 },
-      { name: "Figma", level: 75 },
-      { name: "VS Code", level: 98 },
-    ],
-  },
-];
 
 export function Skills() {
   const getSkillData = (skillId: string): SkillTag | null => {

@@ -1,6 +1,6 @@
 "use client";
 
-import { Mail, ArrowUp, Code2 } from "lucide-react";
+import { ArrowUp, Code2 } from "lucide-react";
 
 const socials = [
   { href: "https://github.com/your-username", label: "GitHub" },
@@ -12,7 +12,7 @@ const socials = [
     href: "https://twitter.com/your-username",
     label: "Twitter",
   },
-  { icon: Mail, href: "mailto:your.email@example.com", label: "Email" },
+  { href: "mailto:your.email@example.com", label: "Email" },
 ];
 
 const footerLinks = [
@@ -55,7 +55,6 @@ export function Footer() {
                   aria-label={social.label}
                   className="flex h-10 w-10 items-center justify-center rounded-lg border border-border bg-card/50 text-muted-foreground transition-all hover:border-primary/50 hover:text-primary hover:glow-primary"
                 >
-                  {/* <social.icon className="h-5 w-5" /> */}
                 </a>
               ))}
             </div>

@@ -283,4 +283,3 @@ export function ShinyButton({
   );
 }
 
-export default ShinyButton;

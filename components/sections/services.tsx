@@ -7,7 +7,7 @@ import {
   useSpring,
   useTransform,
 } from "framer-motion";
-import { Globe, Server, BrainCircuit, Plug, ArrowUpRight } from "lucide-react";
+import { Globe, Server, BrainCircuit, Plug } from "lucide-react";
 import { useRef } from "react";
 
 const services = [
