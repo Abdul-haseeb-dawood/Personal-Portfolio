@@ -7,9 +7,10 @@ import * as THREE from "three";
 interface ShaderPlaneProps {
   fragmentShader: string;
   uniforms: { [key: string]: { value: unknown } };
+  isLight: boolean;
 }
 
-function ShaderPlane({ fragmentShader, uniforms }: ShaderPlaneProps) {
+function ShaderPlane({ fragmentShader, uniforms, isLight }: ShaderPlaneProps) {
   const meshRef = useRef<THREE.Mesh>(null);
   const { size } = useThree();
 
@@ -18,6 +19,7 @@ function ShaderPlane({ fragmentShader, uniforms }: ShaderPlaneProps) {
       const material = meshRef.current.material as THREE.ShaderMaterial;
       material.uniforms.u_time.value = state.clock.elapsedTime * 0.5;
       material.uniforms.u_resolution.value.set(size.width, size.height, 1.0);
+      material.uniforms.u_light.value = isLight ? 1.0 : 0.0;
     }
   });
 
@@ -67,6 +69,7 @@ const fragmentShader = `
   varying vec2 vUv;
   uniform float u_time;
   uniform vec3 u_resolution;
+  uniform float u_light;
   uniform sampler2D iChannel0;
 
   #define STEP 256
@@ -168,17 +171,32 @@ const fragmentShader = `
         position += rayDir * curDist * .5;
     }
 
-    float f;
-
-    float dist = distance(rayOrigin,position);
-    f = dist /(98.);
-    f = float(nbStep) / float(STEP);
-
+    float f = float(nbStep) / float(STEP);
     f *= .9;
-    vec3 col = vec3(f);
+
+    vec3 col;
+
+    if (u_light > .5) {
+      // Light theme: the exact same wave scene, only the palette is flipped so
+      // what glows bright on black becomes soft cyan ink on pale paper.
+      vec3 paper = vec3(1.0);
+      vec3 ink = vec3(0.145, 0.520, 0.610);
+      vec3 mist = vec3(0.660, 0.870, 0.910);
+
+      float depth = clamp(f / .9, 0.0, 1.0);
+
+      // Rays that reach the surface early are the crests: ink them. Rays that
+      // travel through the empty space stay paper, with a misty mid-tone for
+      // the grazing areas so the waves keep their soft glow.
+      float t = smoothstep(.02, .82, depth);
+      col = mix(mix(ink, mist, smoothstep(.02, .45, depth)), paper, t);
+    } else {
+      col = vec3(f);
+    }
 
     fragColor = vec4(col,1.0);
   }
+
   void main() {
     vec4 fragColor;
     vec2 fragCoord = vUv * u_resolution.xy;
@@ -189,16 +207,19 @@ const fragmentShader = `
 
 interface ShaderBackgroundProps {
   className?: string;
+  isLight: boolean;
 }
 
 function ShaderBackground({
   className = "w-full h-full",
+  isLight,
 }: ShaderBackgroundProps) {
   const noiseTexture = useMemo(() => generateNoiseTexture(), []);
   const shaderUniforms = useMemo(
     () => ({
       u_time: { value: 0 },
       u_resolution: { value: new THREE.Vector3(1, 1, 1) },
+      u_light: { value: 0 },
       iChannel0: { value: noiseTexture },
     }),
     [noiseTexture],
@@ -210,25 +231,9 @@ function ShaderBackground({
         <ShaderPlane
           fragmentShader={fragmentShader}
           uniforms={shaderUniforms}
+          isLight={isLight}
         />
       </Canvas>
-    </div>
-  );
-}
-
-function LightBackground() {
-  return (
-    <div className="pointer-events-none fixed inset-0 -z-10 animate-fade-in overflow-hidden bg-background">
-      <div className="absolute inset-0 bg-gradient-to-b from-secondary/70 via-background to-background" />
-
-      <div className="absolute left-1/2 top-[-16rem] h-[34rem] w-[34rem] animate-aurora-a rounded-full bg-primary/[0.15] blur-[110px]" />
-      <div className="absolute left-[-8rem] top-[24%] h-[26rem] w-[26rem] animate-aurora-b rounded-full bg-accent/[0.14] blur-[120px]" />
-      <div className="absolute right-[-7rem] top-[52%] h-[30rem] w-[30rem] animate-aurora-c rounded-full bg-primary/[0.1] blur-[130px]" />
-      <div className="absolute left-[30%] top-[88%] h-[24rem] w-[24rem] animate-aurora-a rounded-full bg-accent/[0.1] blur-[120px]" />
-
-      <div className="absolute inset-0 bg-dot bg-mesh-fade opacity-70" />
-      <div className="absolute inset-0 bg-vignette" />
-      <div className="absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-background/70 to-transparent" />
     </div>
   );
 }
@@ -252,21 +257,46 @@ function getServerThemeSnapshot() {
   return false;
 }
 
+function subscribeToNothing() {
+  return () => {};
+}
+
+function getClientSnapshot() {
+  return true;
+}
+
+function getServerClientSnapshot() {
+  return false;
+}
+
 export function AnimatedBackground() {
+  const isClient = useSyncExternalStore(
+    subscribeToNothing,
+    getClientSnapshot,
+    getServerClientSnapshot,
+  );
   const isDark = useSyncExternalStore(
     subscribeToTheme,
     getThemeSnapshot,
     getServerThemeSnapshot,
   );
 
-  if (!isDark) {
-    return <LightBackground />;
+  // The shader reads Math.random for its noise texture, so it must not run
+  // during prerender/hydration.
+  if (!isClient) {
+    return null;
   }
+
+  const isLight = !isDark;
 
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
-      <div className="absolute inset-0 opacity-50">
-        <ShaderBackground className="w-full h-full" />
+      <div
+        className={
+          isLight ? "absolute inset-0 opacity-45" : "absolute inset-0 opacity-50"
+        }
+      >
+        <ShaderBackground className="w-full h-full" isLight={isLight} />
       </div>
       <div className="absolute inset-0 bg-gradient-to-b from-background/50 via-transparent to-background" />
       <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-background to-transparent" />

@@ -101,7 +101,7 @@
   --skill-chip-glow-hover: 190 95% 22% / 0.48;
   --skill-chip-shadow: 190 60% 22% / 0.2;
   --hero-name-stroke: hsl(190 95% 24%);
-  --hero-name-glow: rgba(0, 118, 135, 0.68);
+  --hero-name-glow: rgba(0, 118, 135, 0.12);
 }
 
 @layer base {
@@ -200,8 +200,7 @@
 }
 
 .light .hero-name {
-  filter: drop-shadow(0 0 12px var(--hero-name-glow))
-    drop-shadow(0 0 28px var(--hero-name-glow));
+  filter: drop-shadow(0 0 2px var(--hero-name-glow));
 }
 
 .light .shiny-button {
@@ -263,76 +262,6 @@
   display: none;
 }
 
-/* Light theme animated backdrop */
-.bg-mesh-fade {
-  -webkit-mask-image: radial-gradient(
-    ellipse 85% 70% at 50% 8%,
-    #000 20%,
-    transparent 80%
-  );
-  mask-image: radial-gradient(
-    ellipse 85% 70% at 50% 8%,
-    #000 20%,
-    transparent 80%
-  );
-}
-
-.bg-vignette {
-  background: radial-gradient(
-    ellipse 95% 80% at 50% 25%,
-    transparent 45%,
-    hsl(var(--background)) 100%
-  );
-}
-
-@keyframes aurora-drift-a {
-  0%,
-  100% {
-    transform: translate3d(-50%, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(-42%, 6%, 0) scale(1.15);
-  }
-}
-
-@keyframes aurora-drift-b {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1);
-  }
-  50% {
-    transform: translate3d(12%, -9%, 0) scale(1.2);
-  }
-}
-
-@keyframes aurora-drift-c {
-  0%,
-  100% {
-    transform: translate3d(0, 0, 0) scale(1.1);
-  }
-  50% {
-    transform: translate3d(-14%, 7%, 0) scale(0.92);
-  }
-}
-
-.animate-aurora-a,
-.animate-aurora-b,
-.animate-aurora-c {
-  will-change: transform;
-}
-
-.animate-aurora-a {
-  animation: aurora-drift-a 24s ease-in-out infinite;
-}
-
-.animate-aurora-b {
-  animation: aurora-drift-b 30s ease-in-out infinite;
-}
-
-.animate-aurora-c {
-  animation: aurora-drift-c 27s ease-in-out infinite;
-}
-
 @keyframes gradient-shift {
   0%, 100% { background-position: 0% 50%; }
   50% { background-position: 100% 50%; }
@@ -371,9 +300,6 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-aurora-a,
-  .animate-aurora-b,
-  .animate-aurora-c,
   .animate-fade-in,
   .animate-float,
   .animate-pulse-glow {
